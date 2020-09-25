@@ -2,25 +2,25 @@ import { Router } from 'express';
 
 import CreateProviderService from '../services/CreateProviderService';
 
-const usersRouter = Router();
+const providersRouter = Router();
 
-usersRouter.post('/', async (request, response) => {
+providersRouter.post('/', async (request, response) => {
   try {
     const { name, email, phone, password } = request.body;
 
-    const createUser = new CreateProviderService();
+    const createProvider = new CreateProviderService();
 
-    const user = await createUser.execute({
+    const provider = await createProvider.execute({
       name,
       email,
       phone,
       password,
     });
 
-    return response.json(user);
+    return response.json(provider);
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
 });
 
-export default usersRouter;
+export default providersRouter;
