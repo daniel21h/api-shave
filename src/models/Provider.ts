@@ -18,7 +18,7 @@ class Provider {
   email: string;
 
   @Column('numeric')
-  phone: string;
+  phone: number;
 
   @Column()
   password: string;
