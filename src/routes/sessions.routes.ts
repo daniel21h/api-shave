@@ -6,41 +6,33 @@ import AuthenticateProviderService from '../services/AuthenticateProviderService
 const sessionsRouter = Router();
 
 sessionsRouter.post('/user', async (request, response) => {
-  try {
-    const { email, password } = request.body;
+  const { email, password } = request.body;
 
-    const authenticateUser = new AuthenticateUserService();
+  const authenticateUser = new AuthenticateUserService();
 
-    const { user, token } = await authenticateUser.execute({
-      email,
-      password,
-    });
+  const { user, token } = await authenticateUser.execute({
+    email,
+    password,
+  });
 
-    delete user.password;
+  delete user.password;
 
-    return response.json({ user, token });
-  } catch (err) {
-    return response.status(err.statusCode).json({ error: err.message });
-  }
+  return response.json({ user, token });
 });
 
 sessionsRouter.post('/provider', async (request, response) => {
-  try {
-    const { email, password } = request.body;
+  const { email, password } = request.body;
 
-    const authenticateProvider = new AuthenticateProviderService();
+  const authenticateProvider = new AuthenticateProviderService();
 
-    const { provider, token } = await authenticateProvider.execute({
-      email,
-      password,
-    });
+  const { provider, token } = await authenticateProvider.execute({
+    email,
+    password,
+  });
 
-    delete provider.password;
+  delete provider.password;
 
-    return response.json({ provider, token });
-  } catch (err) {
-    return response.status(err.statusCode).json({ error: err.message });
-  }
+  return response.json({ provider, token });
 });
 
 export default sessionsRouter;
