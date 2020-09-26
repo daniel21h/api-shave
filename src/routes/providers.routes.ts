@@ -1,8 +1,13 @@
 import { Router } from 'express';
+import multer from 'multer';
+import uploadConfig from '../config/upload';
 
 import CreateProviderService from '../services/CreateProviderService';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const providersRouter = Router();
+
+const upload = multer(uploadConfig);
 
 providersRouter.post('/', async (request, response) => {
   try {
@@ -17,10 +22,23 @@ providersRouter.post('/', async (request, response) => {
       password,
     });
 
+    delete provider.password;
+
     return response.json(provider);
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
 });
+
+providersRouter.patch(
+  '/avatar',
+  ensureAuthenticated,
+  upload.single('avatar'),
+  async (request, response) => {
+    console.log(request.file);
+
+    return response.json({ ok: true });
+  },
+);
 
 export default providersRouter;
