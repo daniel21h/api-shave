@@ -4,6 +4,7 @@ import { getRepository } from 'typeorm';
 
 import uploadConfig from '../config/upload';
 import Provider from '../models/Provider';
+import AppError from '../errors/AppError';
 
 interface Request {
   provider_id: string;
@@ -20,7 +21,10 @@ class UpdateProviderAvatarService {
     const provider = await providersRepository.findOne(provider_id);
 
     if (!provider) {
-      throw new Error('Only authenticated providers can change avatar');
+      throw new AppError(
+        'Only authenticated providers can change avatar.',
+        401,
+      );
     }
 
     if (provider.avatar) {
