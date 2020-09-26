@@ -11,12 +11,12 @@ sessionsRouter.post('/user', async (request, response) => {
 
     const authenticateUser = new AuthenticateUserService();
 
-    const { user } = await authenticateUser.execute({
+    const { user, token } = await authenticateUser.execute({
       email,
       password,
     });
 
-    return response.json({ user });
+    return response.json({ user, token });
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
@@ -28,12 +28,12 @@ sessionsRouter.post('/provider', async (request, response) => {
 
     const authenticateProvider = new AuthenticateProviderService();
 
-    const { provider } = await authenticateProvider.execute({
+    const { provider, token } = await authenticateProvider.execute({
       email,
       password,
     });
 
-    return response.json({ provider });
+    return response.json({ provider, token });
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
