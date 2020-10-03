@@ -1,10 +1,10 @@
 import path from 'path';
 import fs from 'fs';
-import { getRepository } from 'typeorm';
 
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import Provider from '../infra/typeorm/entities/Provider';
+import IProvidersRepository from '../repositories/IProvidersRepository';
 
 interface Request {
   provider_id: string;
@@ -12,13 +12,13 @@ interface Request {
 }
 
 class UpdateProviderAvatarService {
+  constructor(private providersRepository: IProvidersRepository) {}
+
   public async execute({
     provider_id,
     avatarFilename,
   }: Request): Promise<Provider> {
-    const providersRepository = getRepository(Provider);
-
-    const provider = await providersRepository.findOne(provider_id);
+    const provider = await this.providersRepository.findById(provider_id);
 
     if (!provider) {
       throw new AppError(
@@ -44,7 +44,7 @@ class UpdateProviderAvatarService {
 
     provider.avatar = avatarFilename;
 
-    await providersRepository.save(provider);
+    await this.providersRepository.save(provider);
 
     return provider;
   }

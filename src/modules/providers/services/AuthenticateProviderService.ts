@@ -1,10 +1,10 @@
-import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/auth';
 
 import AppError from '@shared/errors/AppError';
 import Provider from '../infra/typeorm/entities/Provider';
+import IProvidersRepository from '../repositories/IProvidersRepository';
 
 interface Request {
   email: string;
@@ -17,10 +17,10 @@ interface Response {
 }
 
 class AuthenticateProviderService {
-  public async execute({ email, password }: Request): Promise<Response> {
-    const providersRepository = getRepository(Provider);
+  constructor(private providersRepository: IProvidersRepository) {}
 
-    const provider = await providersRepository.findOne({ where: { email } });
+  public async execute({ email, password }: Request): Promise<Response> {
+    const provider = await this.providersRepository.findByEmail(email);
 
     if (!provider) {
       throw new AppError('Incorrect email/password combination!', 401);

@@ -1,9 +1,9 @@
-import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 import AppError from '@shared/errors/AppError';
 import Provider from '../infra/typeorm/entities/Provider';
+import IProvidersRepository from '../repositories/IProvidersRepository';
 
-interface Request {
+interface IRequest {
   name: string;
   email: string;
   phone: number;
@@ -11,17 +11,15 @@ interface Request {
 }
 
 class CreateProviderService {
+  constructor(private providersRepository: IProvidersRepository) {}
+
   public async execute({
     name,
     email,
     phone,
     password,
-  }: Request): Promise<Provider> {
-    const providersRepository = getRepository(Provider);
-
-    const checkUserExists = await providersRepository.findOne({
-      where: { email },
-    });
+  }: IRequest): Promise<Provider> {
+    const checkUserExists = await this.providersRepository.findByEmail(email);
 
     if (checkUserExists) {
       throw new AppError('Email address already used.');
@@ -29,14 +27,12 @@ class CreateProviderService {
 
     const hashedPassword = await hash(password, 8);
 
-    const provider = providersRepository.create({
+    const provider = await this.providersRepository.create({
       name,
       email,
       phone,
       password: hashedPassword,
     });
-
-    await providersRepository.save(provider);
 
     return provider;
   }
