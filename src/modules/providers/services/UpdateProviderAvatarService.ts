@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import { inject, injectable } from 'tsyringe';
 
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
@@ -11,8 +12,12 @@ interface Request {
   avatarFilename: string;
 }
 
+@injectable()
 class UpdateProviderAvatarService {
-  constructor(private providersRepository: IProvidersRepository) {}
+  constructor(
+    @inject('ProvidersRepository')
+    private providersRepository: IProvidersRepository,
+  ) {}
 
   public async execute({
     provider_id,

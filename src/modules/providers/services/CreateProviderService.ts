@@ -1,5 +1,7 @@
 import { hash } from 'bcryptjs';
 import AppError from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
+
 import Provider from '../infra/typeorm/entities/Provider';
 import IProvidersRepository from '../repositories/IProvidersRepository';
 
@@ -10,8 +12,12 @@ interface IRequest {
   password: string;
 }
 
+@injectable()
 class CreateProviderService {
-  constructor(private providersRepository: IProvidersRepository) {}
+  constructor(
+    @inject('ProvidersRepository')
+    private providersRepository: IProvidersRepository,
+  ) {}
 
   public async execute({
     name,

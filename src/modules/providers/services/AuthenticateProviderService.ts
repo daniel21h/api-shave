@@ -1,6 +1,7 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/auth';
+import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import Provider from '../infra/typeorm/entities/Provider';
@@ -16,8 +17,12 @@ interface Response {
   token: string;
 }
 
+@injectable()
 class AuthenticateProviderService {
-  constructor(private providersRepository: IProvidersRepository) {}
+  constructor(
+    @inject('ProvidersRepository')
+    private providersRepository: IProvidersRepository,
+  ) {}
 
   public async execute({ email, password }: Request): Promise<Response> {
     const provider = await this.providersRepository.findByEmail(email);
