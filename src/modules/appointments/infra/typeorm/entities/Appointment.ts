@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import Provider from './Provider';
+import Provider from '@modules/providers/infra/typeorm/entities/Provider';
 
 @Entity('appointments')
 class Appointment {

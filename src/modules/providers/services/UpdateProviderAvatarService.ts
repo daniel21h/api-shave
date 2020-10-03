@@ -2,9 +2,9 @@ import path from 'path';
 import fs from 'fs';
 import { getRepository } from 'typeorm';
 
-import uploadConfig from '../config/upload';
-import Provider from '../models/Provider';
-import AppError from '../errors/AppError';
+import uploadConfig from '@config/upload';
+import AppError from '@shared/errors/AppError';
+import Provider from '../infra/typeorm/entities/Provider';
 
 interface Request {
   provider_id: string;
