@@ -19,6 +19,10 @@ class AppointmentRepository implements IAppointmentsRepository {
     return findAppointment;
   }
 
+  public async delete(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
+  }
+
   public async create({
     provider_id,
     date,

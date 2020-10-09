@@ -9,5 +9,6 @@ const appointmentsController = new AppointmentsController();
 appointmentsRouter.use(ensureAuthenticated);
 
 appointmentsRouter.post('/', appointmentsController.create);
+appointmentsRouter.delete('/', appointmentsController.delete);
 
 export default appointmentsRouter;
