@@ -1,5 +1,4 @@
 import { inject, injectable } from 'tsyringe';
-import { hash } from 'bcryptjs';
 
 import AppError from '@shared/errors/AppError';
 
@@ -11,6 +10,7 @@ interface IRequest {
   user_id: string;
   name: string;
   email: string;
+  phone: number;
   old_password?: string;
   password?: string;
 }
@@ -29,6 +29,7 @@ class UpdateProfileService {
     user_id,
     name,
     email,
+    phone,
     old_password,
     password,
   }: IRequest): Promise<User> {
@@ -46,6 +47,7 @@ class UpdateProfileService {
 
     user.name = name;
     user.email = email;
+    user.phone = phone;
 
     if (password && !old_password) {
       throw new AppError(

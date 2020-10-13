@@ -17,6 +17,9 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 import ProviderTokensRepository from '@modules/providers/infra/typeorm/repositories/ProviderTokensRepository';
 import IProviderTokensRepository from '@modules/providers/repositories/IProviderTokensRepository';
 
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
+import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
+
 container.registerSingleton<IAppointmentsRepository>(
   'AppointmentsRepository',
   AppointmentRepository,
@@ -41,3 +44,5 @@ container.registerSingleton<IProviderTokensRepository>(
   'ProviderTokensRepository',
   ProviderTokensRepository,
 );
+
+container.registerSingleton<IHashProvider>('HashProvider', BCryptHashProvider);
