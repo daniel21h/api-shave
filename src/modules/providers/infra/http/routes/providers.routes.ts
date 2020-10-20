@@ -12,6 +12,8 @@ const upload = multer(uploadConfig);
 const providersController = new ProvidersController();
 const providerAvatarController = new ProviderAvatarController();
 
+providersRouter.get('/', ensureAuthenticated, providersController.index);
+
 providersRouter.post('/', providersController.create);
 
 providersRouter.patch(

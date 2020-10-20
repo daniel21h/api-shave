@@ -1,7 +1,8 @@
-import { Repository, getRepository } from 'typeorm';
+import { Repository, getRepository, Not } from 'typeorm';
 
 import IProvidersRepository from '@modules/providers/repositories/IProvidersRepository';
 import ICreateProviderDTO from '@modules/providers/dtos/ICreateProviderDTO';
+import IFindAllProvidersDTO from '@modules/providers/dtos/IFindAllProvidersDTO';
 import Provider from '../entities/Provider';
 
 class ProvidersRepository implements IProvidersRepository {
@@ -23,6 +24,24 @@ class ProvidersRepository implements IProvidersRepository {
     });
 
     return provider;
+  }
+
+  public async findAllProviders({
+    except_provider_id,
+  }: IFindAllProvidersDTO): Promise<Provider[]> {
+    let providers: Provider[];
+
+    if (except_provider_id) {
+      providers = await this.ormRepository.find({
+        where: {
+          id: Not(except_provider_id),
+        },
+      });
+    } else {
+      providers = await this.ormRepository.find();
+    }
+
+    return providers;
   }
 
   public async create(providerData: ICreateProviderDTO): Promise<Provider> {

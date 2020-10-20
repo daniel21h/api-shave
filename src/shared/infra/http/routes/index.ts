@@ -17,6 +17,7 @@ routes.use('/userprofile', profileRouter);
 routes.use('/password', passwordRouter);
 
 routes.use('/providers', providersRouter);
+routes.use('/providers', providersRouter);
 
 routes.use('/sessions', [sessionsUsersRouter, sessionsProvidersRouter]);
 
