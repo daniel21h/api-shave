@@ -6,7 +6,7 @@ import CreateAppointmentService from '@modules/appointments/services/CreateAppoi
 import DeleteAppointmentService from '@modules/appointments/services/DeleteAppointmentService';
 
 export default class AppointmentsController {
-  async create(request: Request, response: Response): Promise<Response> {
+  public async create(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
     const { provider_id, date } = request.body;
 
@@ -23,7 +23,7 @@ export default class AppointmentsController {
     return response.json(appointment);
   }
 
-  async delete(request: Request, response: Response): Promise<Response> {
+  public async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.body;
 
     const deleteAppointment = container.resolve(DeleteAppointmentService);

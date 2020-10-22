@@ -1,9 +1,8 @@
 import { startOfHour } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import AppError from '@shared/errors/AppError';
+// import AppError from '@shared/errors/AppError';
 
-import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
@@ -18,7 +17,9 @@ class DeleteAppointmentService {
   ) {}
 
   public async execute({ id }: IRequest): Promise<void> {
-    await this.appointmentsRepository.delete(id);
+    const appointment = await this.appointmentsRepository.delete(id);
+
+    return appointment;
   }
 }
 
