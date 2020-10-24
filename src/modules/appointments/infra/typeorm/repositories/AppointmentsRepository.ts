@@ -68,6 +68,19 @@ class AppointmentRepository implements IAppointmentsRepository {
     return appointments;
   }
 
+  public async findAllFromUser(user_id: string): Promise<Appointment[]> {
+    const appointments = await this.ormRepository.find({
+      where: {
+        user_id,
+      },
+      order: {
+        created_at: -1,
+      },
+    });
+
+    return appointments;
+  }
+
   public async delete(id: string): Promise<void> {
     await this.ormRepository.delete(id);
   }

@@ -20,6 +20,9 @@ import IProviderTokensRepository from '@modules/providers/repositories/IProvider
 import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
 import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 
+import INotificationRepository from '@modules/notifications/repositories/INotificationsRepository';
+import NotificationRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
+
 container.registerSingleton<IAppointmentsRepository>(
   'AppointmentsRepository',
   AppointmentRepository,
@@ -46,3 +49,8 @@ container.registerSingleton<IProviderTokensRepository>(
 );
 
 container.registerSingleton<IHashProvider>('HashProvider', BCryptHashProvider);
+
+container.registerSingleton<INotificationRepository>(
+  'NotificationsRepository',
+  NotificationRepository,
+);
