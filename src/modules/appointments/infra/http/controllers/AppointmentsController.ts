@@ -32,6 +32,8 @@ export default class AppointmentsController {
       id,
     });
 
-    return response.json(appointment);
+    return response
+      .status(200)
+      .json({ message: 'Appointment successfully unchecked!', appointment });
   }
 }

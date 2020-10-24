@@ -1,4 +1,3 @@
-import { startOfHour } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 // import AppError from '@shared/errors/AppError';
